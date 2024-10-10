@@ -7,7 +7,7 @@ import  { MongoClient, ObjectId } from 'mongodb'
 dotenv.config()
 const PORT = process.env.PORT || 3000;
 
-export const app = express();
+const app = express();
 app.use(cors());
 app.use(express.json());
 
@@ -207,3 +207,4 @@ conToDb(() => {
         console.log(`Server running on port ${PORT}`);
     });
 });
+export default app;
