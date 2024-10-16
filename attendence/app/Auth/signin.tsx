@@ -21,6 +21,7 @@ import {
 } from '@expo/vector-icons';
 import { Divider, Button, Text as PaperText } from 'react-native-paper';
 import Toast from 'react-native-toast-message';
+import { api } from '@/constants/api';
 
 const Signin = () => {
   const [userName, setUserName] = React.useState<string>('');
@@ -30,7 +31,7 @@ const Signin = () => {
 
   const onSignin = async () => {
     try {
-      const response = await fetch("http://localhost:8000/signin", {
+      const response = await fetch(`${api}/signin`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: userName, password })

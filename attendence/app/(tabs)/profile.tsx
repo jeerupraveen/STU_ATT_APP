@@ -2,6 +2,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, KeyboardAvoidingVi
 import React, { useState, useEffect } from 'react';
 import Toast from 'react-native-toast-message';
 import { router } from 'expo-router';
+import { api } from '@/constants/api';
 
 // Define the Student interface
 interface Student {
@@ -36,7 +37,7 @@ const Profile: React.FC = () => {
   // Handle form submission
   const handleSubmit = async () => {
     try {
-      const response = await fetch("http://localhost:8000/updateprofile", {
+      const response = await fetch(`${api}/updateprofile`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -72,7 +73,7 @@ const Profile: React.FC = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await fetch("https://stu-att-app-fjs5-jeerupraveens-projects.vercel.app/retriveuser", {
+        const response = await fetch(`${api}/retriveuser`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

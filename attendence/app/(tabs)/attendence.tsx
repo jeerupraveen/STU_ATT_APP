@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, ScrollView, Platform, StatusBar, TouchableOpaci
 import React, { useEffect, useState } from 'react';
 import { AnimatedFAB, DataTable } from 'react-native-paper';
 import Toast from 'react-native-toast-message';
+import { api } from '@/constants/api';
 
 interface Student {
   _id: string;
@@ -17,7 +18,7 @@ const Attendence: React.FC = () => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch("http://localhost:8000/retrieveAll", {
+      const response = await fetch(`${api}/retrieveAll`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -42,7 +43,7 @@ const Attendence: React.FC = () => {
 
   const handleAttend = async (id: string, currentStreak: number) => {
     try {
-      const response = await fetch("http://localhost:8000/update", {
+      const response = await fetch(`${api}/update`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

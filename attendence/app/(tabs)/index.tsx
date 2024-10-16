@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { DataTable } from 'react-native-paper';
 import Toast from 'react-native-toast-message';
+import { api } from '@/constants/api';
 
 const Home: React.FC = () => {
   const [home, setStudent] = useState<any>(null);
@@ -11,7 +12,7 @@ const Home: React.FC = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await fetch("http://localhost:8000/retriveuser", {
+        const response = await fetch(`${api}/retriveuser`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

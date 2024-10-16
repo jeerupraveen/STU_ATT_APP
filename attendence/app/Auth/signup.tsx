@@ -4,6 +4,7 @@ import { Link } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import Toast from 'react-native-toast-message';
+import { api } from '@/constants/api';
 
 const Signup = () => {
   const [email, setEmail] = useState<string>(''); 
@@ -31,7 +32,7 @@ const Signup = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:8000/insertdata", {
+      const response = await fetch(`${api}/insertdata`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password })

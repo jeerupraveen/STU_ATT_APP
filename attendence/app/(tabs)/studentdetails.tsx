@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, ScrollView, Platform, StatusBar, ActivityIndica
 import React, { useEffect, useState } from 'react';
 import { DataTable } from 'react-native-paper';
 import Toast from 'react-native-toast-message';
+import { api } from '@/constants/api';
 
 // Define a type for the student data
 interface Student {
@@ -22,7 +23,7 @@ const Studentdetails: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:8000/retrieveAll", {
+        const response = await fetch(`${api}/retrieveAll`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

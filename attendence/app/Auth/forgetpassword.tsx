@@ -4,6 +4,7 @@ import { Link, router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { Button, PaperProvider } from 'react-native-paper';
 import Toast from 'react-native-toast-message';
+import { api } from '@/constants/api';
 
 const Forgetpassword = () => {
   const [userName, setUserName] = React.useState<string>('');
@@ -25,7 +26,7 @@ const Forgetpassword = () => {
     }
 
     try {
-      const response = await fetch('http://localhost:8000/updatepassword', {
+      const response = await fetch(`${api}/updatepassword`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
