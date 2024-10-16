@@ -72,7 +72,7 @@ const Profile: React.FC = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await fetch("http://localhost:8000/retriveuser", {
+        const response = await fetch("https://stu-att-app-fjs5-jeerupraveens-projects.vercel.app/retriveuser", {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
