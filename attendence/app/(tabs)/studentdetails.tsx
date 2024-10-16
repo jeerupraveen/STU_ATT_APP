@@ -46,12 +46,9 @@ const Studentdetails: React.FC = () => {
     fetchData();
   }, []); // Empty dependency array to run once on mount
 
-  return (
+  return (<>
     <ScrollView style={{ flex: 1, backgroundColor: 'white', paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0 }} showsVerticalScrollIndicator={false}>
-      <View style={{ width: 400, height: 100, justifyContent: "center", alignItems: "center" }}>
-        <Toast />
-      </View>
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center',marginBottom:30 }}>
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center'}}>
         <Text style={styles.title}>STUDENT DETAILS</Text>
       </View>
 
@@ -98,6 +95,8 @@ const Studentdetails: React.FC = () => {
         </View>
       )}
     </ScrollView>
+    <Toast/>
+    </>
   );
 };
 

@@ -7,7 +7,7 @@ import  { MongoClient, ObjectId } from 'mongodb'
 dotenv.config()
 const PORT = process.env.PORT || 3000;
 
-export const app = express();
+const app = express();
 app.use(cors());
 app.use(express.json());
 
@@ -46,7 +46,6 @@ app.post('/insertdata', async (req, res) => {
                 details: e.keyValue
             });
         } else {
-            console.log(e);
             res.status(500).json({
                 error: 'An error occurred',
                 details: e.message
@@ -71,7 +70,6 @@ app.post("/update", async (req, res) => {
             { _id: new ObjectId(id) },
             { $set: { attendance_streak: attendance_streak+1 } },
         );
-        console.log(response)
 
         if (!response) {
             return res.status(404).json({ error: "Attendance record not found" });
@@ -91,8 +89,6 @@ app.post("/update", async (req, res) => {
 // Endpoint to update profile
 app.post("/updateprofile", async (req, res) => {
     try {
-        console.log("Request Body:", req.body);
-
         const { _id, name, phone_number, year, branch,regno } = req.body;
 
         if (!_id) {
@@ -105,9 +101,6 @@ app.post("/updateprofile", async (req, res) => {
             { $set: { name:name, phone_number:phone_number, year:year, branch:branch ,regno:regno} },
             { returnDocument: 'after' } // Use 'after' to return the updated document
         );
-
-        console.log("respone " ,response);
-
         if (!response) {
             return res.status(404).json({ error: "Student record not found" });
         }
@@ -182,15 +175,12 @@ app.post('/signin', async (req, res) => {
   });
 
 app.post('/updatepassword', async (req, res) => {
-    console.log(req.body)
     const { email, password } = req.body;
-
     try {
         const user = await db.collection("userdata").findOneAndUpdate(
             { email:email },
             { $set: { password:password} },
         );
-         console.log(user)
         if (!user) {
             return res.status(401).json({ code: 401, message: 'Invalid email' });
         }
@@ -207,3 +197,4 @@ conToDb(() => {
         console.log(`Server running on port ${PORT}`);
     });
 });
+export default app;
