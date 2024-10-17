@@ -2,10 +2,9 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, KeyboardAvoidingVi
 import React, { useState, useEffect } from 'react';
 import Toast from 'react-native-toast-message';
 import { router } from 'expo-router';
-const pra:boolean=true
-export const api=pra?"https://stu-att-app-4wnt.vercel.app":"http://localhost:8000"
-
-
+const pra = true;
+export const api = pra ? "https://stu-att-app-4wnt.vercel.app" : "http://localhost:8000";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 // Define the Student interface
 interface Student {
   id: string;
@@ -74,13 +73,14 @@ const Profile: React.FC = () => {
 
   useEffect(() => {
     const fetchUserData = async () => {
+      const email= await AsyncStorage.getItem('email');
       try {
         const response = await fetch(`${api}/retriveuser`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ email: sessionStorage.getItem("email") }),
+          body: JSON.stringify({ email: email }),
         });
 
         const data = await response.json();
@@ -174,6 +174,7 @@ const Profile: React.FC = () => {
             <Text style={styles.buttonText}>SUBMIT</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.button} onPress={() => {
+            sessionStorage.removeItem("email");
             router.push("/(tabs)/")
           }}>
             <Text style={styles.buttonText}>LOGOUT</Text>

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Toast from 'react-native-toast-message';
 import { router } from 'expo-router';
 import { api } from '@/constants/api';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Define the Student interface
 interface Student {
@@ -78,7 +79,7 @@ const Profile: React.FC = () => {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ email: sessionStorage.getItem("email") }),
+          body: JSON.stringify({ email: await AsyncStorage.getItem("email") }),
         });
 
         const data = await response.json();
@@ -171,8 +172,8 @@ const Profile: React.FC = () => {
           <TouchableOpacity style={styles.button} onPress={handleSubmit}>
             <Text style={styles.buttonText}>SUBMIT</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={() => {
-            sessionStorage.removeItem("email");
+          <TouchableOpacity style={styles.button} onPress={async() => {
+            await AsyncStorage.removeItem("email");
             router.push("/Auth/signin")
           }}>
             <Text style={styles.buttonText}>LOGOUT</Text>

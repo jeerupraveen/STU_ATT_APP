@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import { AnimatedFAB, DataTable } from 'react-native-paper';
 import Toast from 'react-native-toast-message';
 import { api } from '@/constants/api';
-
 interface Student {
   _id: string;
   name: string;

@@ -21,8 +21,10 @@ import {
 } from '@expo/vector-icons';
 import { Divider, Button, Text as PaperText } from 'react-native-paper';
 import Toast from 'react-native-toast-message';
-const pra:boolean=true
-export const api=pra?"https://stu-att-app-4wnt.vercel.app":"http://localhost:8000"
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const pra = true;
+export const api = pra ? "https://stu-att-app-4wnt.vercel.app" : "http://localhost:8000";
 
 const Signin = () => {
   const [userName, setUserName] = React.useState<string>('');
@@ -38,14 +40,15 @@ const Signin = () => {
         body: JSON.stringify({ email: userName, password })
       });
       const responseData = await response.json();
+      console.log(responseData);
       if (responseData.code === 2004) {
-         sessionStorage.setItem("email",userName)
-         Toast.show({ type: 'success', text1: 'Login successful!' });
-         router.push('/(tabs)/');
+        await AsyncStorage.setItem("email", userName);
+        await Toast.show({ type: 'success', text1: 'Login successful!' });
+        router.push('/Auth/profile');
       } else {
         Toast.show({ type: 'error', text1: 'Invalid email or password' });
       }
-    } catch (error:any) {
+    } catch (error: any) {
       Toast.show({ type: 'error', text1: 'An error occurred', text2: error.message });
     }
   };
@@ -301,10 +304,10 @@ const styles = StyleSheet.create({
   },
   footer: {
     alignItems: 'center',
-    marginTop: 10
+    marginBottom: 20
   },
   footerText: {
-    color: '#888'
+    fontSize: 16
   }
 });
 

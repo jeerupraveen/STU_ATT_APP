@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { DataTable } from 'react-native-paper';
 import Toast from 'react-native-toast-message';
 import { api } from '@/constants/api';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Home: React.FC = () => {
   const [home, setStudent] = useState<any>(null);
@@ -11,13 +12,14 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     const fetchUserData = async () => {
+      const email=await AsyncStorage.getItem("email");
       try {
         const response = await fetch(`${api}/retriveuser`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ email: sessionStorage.getItem("email") }),
+          body: JSON.stringify({ email:email }),
         });
 
         const data = await response.json();

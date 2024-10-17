@@ -22,6 +22,7 @@ import {
 import { Divider, Button, Text as PaperText } from 'react-native-paper';
 import Toast from 'react-native-toast-message';
 import { api } from '@/constants/api';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Signin = () => {
   const [userName, setUserName] = React.useState<string>('');
@@ -38,7 +39,7 @@ const Signin = () => {
       });
       const responseData = await response.json();
       if (responseData.code === 2004) {
-         sessionStorage.setItem("email",userName)
+         await AsyncStorage.setItem("email",userName)
          Toast.show({ type: 'success', text1: 'Login successful!' });
          router.push('/(tabs)/');
       } else {
