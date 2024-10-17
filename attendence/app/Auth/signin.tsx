@@ -39,9 +39,9 @@ const Signin = () => {
       });
       const responseData = await response.json();
       if (responseData.code === 2004) {
-         await AsyncStorage.setItem("email",userName)
-         Toast.show({ type: 'success', text1: 'Login successful!' });
-         router.push('/(tabs)/');
+        await AsyncStorage.setItem("email",userName)
+        await Toast.show({ type: 'success', text1: 'Login successful!' });
+        await router.push('/(tabs)/');
       } else {
         Toast.show({ type: 'error', text1: 'Invalid email or password' });
       }
