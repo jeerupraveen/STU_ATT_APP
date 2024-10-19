@@ -5,7 +5,7 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon2.png",
-    "scheme": "myapp",
+    "scheme": "Attendence",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/splash.jpg",
@@ -19,7 +19,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/icon2.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.jeerupraveen.Attendence"
     },
     "web": {
       "bundler": "metro",
@@ -31,6 +32,11 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "580bb58f-4f58-45fc-abf9-9e995711ab30"
+      }
     }
   }
 }
