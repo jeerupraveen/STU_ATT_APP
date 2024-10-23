@@ -3,10 +3,12 @@ import { View, Text, Dimensions, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialIcons } from '@expo/vector-icons';
 import { TextInput, Button } from 'react-native-paper';
+import { useLocalSearchParams } from 'expo-router';
 
 const AddTask = () => {
   const { width, height } = Dimensions.get('screen');
-
+  const{ data}=useLocalSearchParams()
+  console.log(data)
   return (
     <SafeAreaView style={{ flex: 1, width, height, backgroundColor: 'white' }}>
       <View style={{ flexDirection: 'row', alignItems: "flex-start", backgroundColor: '#B7E0FF', padding: 16 }}>

@@ -97,9 +97,9 @@ const Signin = () => {
 
             <View style={styles.row}>
               <View style={{ flexDirection: 'row' }}>
-                <Pressable style={styles.checkboxContainer} onPress={toggleMask}>
+                <Pressable style={styles.checkboxContainer}>
                   <Text>
-                    {mask ? (
+                    {true ? (
                       <AntDesign name="checkcircle" size={15} color="black" />
                     ) : (
                       <Entypo name="circle" size={15} color="black" />

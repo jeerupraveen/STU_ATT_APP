@@ -13,7 +13,7 @@ export default function HomeScreen() {
       <View style={styles.contentContainer}>
         <Text style={styles.title}>Explore the SRKREC</Text>
         <Text style={styles.description}>
-          Our App Description will go here. Please add this by asking info from Teja.
+          This APP FOR ATTENDENCE.
         </Text>
         <TouchableOpacity style={styles.button} onPress={()=>{router.push('/Auth/signin')}}>
           <Text style={styles.buttonText}>Sign In</Text>
