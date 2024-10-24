@@ -16,9 +16,7 @@ const Start: React.FC = () => {
         />
         <Text style={styles.title}>Gets things done with TODO</Text>
         <Text style={styles.description}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Est eu vel
-          pulvinar vulputate suspendisse mauris. Et nunc velit, quam cursus
-          amet, quisque.
+          Todo List app used to save task you want to do everyday.
         </Text>
       </View>
       <TouchableOpacity style={styles.button} onPress={()=>{router.push("/auth/signin")}}>

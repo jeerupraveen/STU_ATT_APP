@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, SafeAreaView, Dimensions, StyleSheet } from 'react-native';
+import { View, SafeAreaView, Dimensions, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
 
 interface UicomponentProps {
   children: React.ReactNode; // Use React.ReactNode for children prop
@@ -10,14 +10,14 @@ const Uicomponent: React.FC<UicomponentProps> = ({ children }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{ position: 'relative', width: width, height: height }}>
-        <View style={styles.overlay1} />
-        <View style={styles.overlay2} />
-        {/* Place the children inside this View to ensure they are displayed correctly */}
-        <View style={styles.contentContainer}>
-          {children}
+        <View style={{ position: 'relative', width: width, height: height, backgroundColor: 'rgba(0,0,0,0.1)' }}>
+          <View style={styles.overlay1} />
+          <View style={styles.overlay2} />
+          {/* Place the children inside this View to ensure they are displayed correctly */}
+          <View style={styles.contentContainer}>
+            {children}
+          </View>
         </View>
-      </View>
     </SafeAreaView>
   );
 };
@@ -49,13 +49,13 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 150,
   },
   contentContainer: {
-    position: 'absolute', 
-    top: 0,              
-    left: 0,        
-    right: 0,      
-    bottom: 0,        
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
     justifyContent: 'center',
-    alignItems: 'center', 
+    alignItems: 'center',
   },
 });
 
