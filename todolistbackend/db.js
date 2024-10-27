@@ -19,7 +19,7 @@ async function conToDb(cb) {
         db = client.db('todo');
 
         // Create an index on the email field in the userdata collection
-        // await db.collection('userdata').createIndex({ email: 1 }, { unique: true });
+        await db.collection('authentication').createIndex({ Email: 1 }, { unique: true });
 
         console.log('Successfully connected to the database');
 

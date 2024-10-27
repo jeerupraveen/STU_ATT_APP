@@ -1,18 +1,47 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, ScrollView, Dimensions, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { FontAwesome, Entypo, MaterialIcons, AntDesign } from '@expo/vector-icons';
 import { AnimatedFAB } from 'react-native-paper';
 import { router } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { retrivetask } from '@/constants/api/api';
+import axios from 'axios';
+import { deletetask } from '@/constants/quries/addtask';
 
 const Todolist = () => {
+  const [userid, setUserId] = useState<string>("");
+  const [task, setTask] = useState<any[]>([]);
   const { width } = Dimensions.get("window");
-  const Array = [
-    { id: 1, title: 'Task 1', detail: 'Detail of Task 1' },
-    { id: 2, title: 'Task 2', detail: 'Detail of Task 2' },
-    { id: 3, title: 'Task 3', detail: 'Detail of Task 3' },
-    { id: 4, title: 'Task 4', detail: 'Detail of Task 4' },
-  ];
+
+  const fetchUserIdAndTasks = async () => {
+    const userId = await AsyncStorage.getItem("userdata");
+    console.log("USERID IN ASYNC STORAGE", userId);
+    
+    if (userId) {
+      setUserId(userId);
+      console.log("INDEX", userId);  // Log userId here instead of the state
+      await retrivedata(userId); // Call retrivedata with userId here
+    } else {
+      console.warn("No user ID found in AsyncStorage.");
+    }
+  };
+
+  const retrivedata = async (userid: string) => {
+    try {
+      const res = await axios.post(retrivetask, { userid });
+      console.log(res.data)
+      setTask(res.data); // Adjust this based on your response structure
+    } catch (error) {
+      console.error("Error retrieving tasks:", error);
+      // You can also set an error state here to show a message in the UI
+    }
+  };
+
+  useEffect(() => {
+    fetchUserIdAndTasks();
+  }, []); // Only run once when the component mounts
+
   return (
     <>
       <SafeAreaView style={styles.safeArea}>
@@ -24,37 +53,58 @@ const Todolist = () => {
             <Text style={styles.headerText}>TODOLIST</Text>
             <FontAwesome name="calendar" size={40} color="black" style={styles.calendarIcon} />
           </View>
-          {Array.map((arr,index) => (
-            <View key={index} style={[styles.todoContainer, { width }]}>
-              <View style={[styles.todoItem, { width: width - 20 }]}>
-                <View style={styles.todoTextContainer}>
-                  <Text>{arr.title}</Text>
-                  <Text>{arr.detail}</Text>
-                </View>
-                <View style={styles.todoActions}>
-                  <Entypo name="edit" size={24} color="black" style={{marginHorizontal:10}}
-                  accessibilityRole='button' onPress={()=>router.push(`/todo/edittask?title=${encodeURIComponent(arr.title)}&detail=${encodeURIComponent(arr.detail)}`)}/>
-                  <MaterialIcons name="delete" size={24} color="black" style={{marginHorizontal:10}}
-                  accessibilityRole='button' onPress={()=>{console.log("deleted succseffuly")}}/>
-                  <AntDesign name="checkcircleo" size={24} color="black" style={{marginHorizontal:10}} />
+          {task.length? ( // Check if tasks exist
+            task.map((arr, index) => (
+              <View key={index} style={[styles.todoContainer, { width }]}>
+                <View style={[styles.todoItem, { width: width - 20 }]}>
+                  <View style={styles.todoTextContainer}>
+                    <Text>{arr.Title}</Text>
+                    <Text>{arr.Detail}</Text>
+                  </View>
+                  <View style={styles.todoActions}>
+                    <Entypo 
+                      name="edit" 
+                      size={24} 
+                      color="black" 
+                      style={{ marginHorizontal: 10 }}
+                      accessibilityRole='button'
+                      onPress={() => router.push(`/todo/edittask?title=${encodeURIComponent(arr.Title)}&detail=${encodeURIComponent(arr.Detail)}&id=${encodeURIComponent(arr._id)}`)} 
+                    />
+                    <MaterialIcons 
+                      name="delete" 
+                      size={24} 
+                      color="black" 
+                      style={{ marginHorizontal: 10 }}
+                      accessibilityRole='button'
+                      onPress={() => { deletetask(arr._id);fetchUserIdAndTasks() }} 
+                    />
+                    <AntDesign 
+                      name="checkcircleo" 
+                      size={24} 
+                      color="black" 
+                      style={{ marginHorizontal: 10 }} 
+                    />
+                  </View>
                 </View>
               </View>
-            </View>
-          ))}
+            ))
+          ) : (
+            <Text style={styles.noTasksText}>No tasks available</Text> // Message when no tasks
+          )}
           <View style={styles.scrollEndSpacer} />
         </ScrollView>
       </SafeAreaView>
       <AnimatedFAB
         extended={false}
         icon="plus"
-        onPress={() => {router.push("/todo/addtask")}}
+        onPress={() => { router.push("/todo/addtask"); }}
         visible={true}
         label="plus"
         style={styles.fab}
       />
     </>
   );
-}
+};
 
 const styles = StyleSheet.create({
   safeArea: {
@@ -111,6 +161,12 @@ const styles = StyleSheet.create({
   },
   scrollEndSpacer: {
     height: 100,  // Adjust the height as per your requirement
+  },
+  noTasksText: {
+    textAlign: 'center',
+    marginTop: 20,
+    fontSize: 18,
+    color: 'gray',
   },
 });
 

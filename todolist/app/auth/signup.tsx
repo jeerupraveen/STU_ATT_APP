@@ -1,24 +1,27 @@
 import { View, Text, TextInput, TouchableOpacity, StyleSheet,Dimensions } from 'react-native';
 import React, { useState } from 'react';
 import Uicomponent from '@/components/Uicomponent'; // Assuming this is a custom component
+import { signup } from '@/constants/quries/signup';
+import Toast from 'react-native-toast-message';
+import { router } from 'expo-router';
 const { width } = Dimensions.get('window');
 const Signup = () => {
-  const [fullName, setFullName] = useState('');
+  const [name, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
-  return (
+  return (<>
     <Uicomponent>
       <Text style={styles.titleText}>Welcome Onboard!</Text>
-      <Text style={styles.subtitleText}>Let's help you meet up your task</Text>
+      <Text style={styles.subtitleText}>Let's help you to create an account</Text>
 
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
           placeholder="Enter your full name"
           placeholderTextColor="#999"
-          value={fullName}
+          value={name}
           onChangeText={setFullName}
         />
         <TextInput
@@ -46,17 +49,18 @@ const Signup = () => {
         />
       </View>
 
-      <TouchableOpacity style={styles.registerButton}>
+      <TouchableOpacity style={styles.registerButton} onPress={()=>{signup(name,email,password)}}>
         <Text style={styles.registerButtonText}>Register</Text>
       </TouchableOpacity>
 
       <View style={styles.footerContainer}>
         <Text>Already have an account?</Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={()=>{router.push("/auth/signin")}}>
           <Text style={styles.signInText}>Sign In</Text>
         </TouchableOpacity>
       </View>
     </Uicomponent>
+    <Toast/></>
   );
 };
 

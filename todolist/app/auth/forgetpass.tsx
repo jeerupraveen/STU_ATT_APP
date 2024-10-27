@@ -2,13 +2,15 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet,Dimensions } from '
 import React, { useState } from 'react';
 import Uicomponent from '@/components/Uicomponent'; // Assuming this is a custom component
 import { router } from 'expo-router';
+import { forgetpwd } from '@/constants/quries/forgetpwd';
+import Toast from 'react-native-toast-message';
 const { width } = Dimensions.get('window');
 const ForgetPassword = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
-  return (
+  return (<>
     <Uicomponent>
       <Text style={styles.titleText}>Welcome Onboard!</Text>
       <Text style={styles.subtitleText}>Let's help you to change your password</Text>
@@ -37,7 +39,7 @@ const ForgetPassword = () => {
           onChangeText={setConfirmPassword}
         />
       </View>
-      <TouchableOpacity style={styles.registerButton}>
+      <TouchableOpacity style={styles.registerButton} onPress={()=>{forgetpwd(email,password)}}>
         <Text style={styles.registerButtonText}>RESET</Text>
       </TouchableOpacity>
       <View style={styles.footerContainer}>
@@ -47,6 +49,7 @@ const ForgetPassword = () => {
         </TouchableOpacity>
       </View>
     </Uicomponent>
+    <Toast/></>
   );
 };
 

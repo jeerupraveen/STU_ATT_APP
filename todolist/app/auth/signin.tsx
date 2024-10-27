@@ -1,19 +1,19 @@
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Dimensions } from 'react-native';
 import React, { useState } from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import Uicomponent from '@/components/Uicomponent';
 import { router } from 'expo-router';
-
+import { signin } from '@/constants/quries/signin';
+import Toast from 'react-native-toast-message';
 const logo = require('@/assets/images/phoneman.jpg'); // Local image asset
 const {width,height}=Dimensions.get("screen")
 const Signin = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   
-  return (
-    <Uicomponent>
+  return (<>
+  <Uicomponent>
+  
       <Text style={styles.welcomeText}>Welcome Back!</Text>
-      
       {/* Displaying the logo */}
       <Image source={logo} style={styles.logo} />
 
@@ -39,7 +39,7 @@ const Signin = () => {
         <Text style={styles.forgotPasswordText}>Forgot Password</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.loginButton}>
+      <TouchableOpacity style={styles.loginButton} onPress={()=>{signin(email,password)}}>
         <Text style={styles.loginButtonText}>Login</Text>
       </TouchableOpacity>
 
@@ -50,6 +50,9 @@ const Signin = () => {
         </TouchableOpacity>
       </View>
     </Uicomponent>
+    <Toast/>
+  </>
+    
   );
 };
 

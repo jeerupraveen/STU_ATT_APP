@@ -3,14 +3,14 @@ import { View, Text, Dimensions, TouchableOpacity, StyleSheet } from 'react-nati
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialIcons } from '@expo/vector-icons';
 import { TextInput, Button } from 'react-native-paper';
-import { useLocalSearchParams, useRouter } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
+import { update } from '@/constants/quries/addtask';
 
 const EditTask = () => {
   const { width, height } = Dimensions.get('screen');
-  const { title, detail }:any = useLocalSearchParams();
+  const { title, detail,id }:any = useLocalSearchParams();
   const [title1, setTitle] = useState(title);
   const [detail2, setDetail] = useState(detail);
-  const router = useRouter();
 
   return (
     <SafeAreaView style={{ flex: 1, width, height, backgroundColor: 'white' }}>
@@ -38,7 +38,7 @@ const EditTask = () => {
         />
         <Button
           mode="contained-tonal"
-          onPress={() => console.log('update')}
+          onPress={() =>{update(title1,detail2,id)}}
           style={styles.button}
         >
           Update
