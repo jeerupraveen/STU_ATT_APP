@@ -69,7 +69,6 @@ app.post('/forgetpassword', async (req, res) => {
   }
 });
 
-
 app.post('/addtask', async (req, res) => {
   const { title, detail,UserId} = req.body;
  const id=new ObjectId(UserId)
