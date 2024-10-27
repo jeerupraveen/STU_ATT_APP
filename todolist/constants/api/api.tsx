@@ -1,4 +1,4 @@
-export const api="http://localhost:8000";
+export const api="https://stu-att-app.vercel.app/";
 export const signin=api+"/signin";
 export const signup=api+"/signup";
 export const forgetpassword=api+"/forgetpassword"

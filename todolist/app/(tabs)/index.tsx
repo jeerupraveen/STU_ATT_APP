@@ -81,7 +81,7 @@ const Todolist = () => {
               <View key={index} style={[styles.todoContainer, { width }]}>
                 <View style={[styles.todoItem, { width: width - 20 }]}>
                   <View style={styles.todoTextContainer}>
-                    <Text>{arr.Title}</Text>
+                    <Text style={{fontSize:20}}>{arr.Title}</Text>
                     <Text>{arr.Detail}</Text>
                   </View>
                   <View style={styles.todoActions}>
