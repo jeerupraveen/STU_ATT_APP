@@ -14,7 +14,6 @@ const Signin = () => {
   <Uicomponent>
   
       <Text style={styles.welcomeText}>Welcome Back!</Text>
-      {/* Displaying the logo */}
       <Image source={logo} style={styles.logo} />
 
       <View style={styles.inputContainer}>

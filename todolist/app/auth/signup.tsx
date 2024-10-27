@@ -1,66 +1,84 @@
-import { View, Text, TextInput, TouchableOpacity, StyleSheet,Dimensions } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Dimensions, Alert } from 'react-native';
 import React, { useState } from 'react';
 import Uicomponent from '@/components/Uicomponent'; // Assuming this is a custom component
-import { signup } from '@/constants/quries/signup';
+import { emailValidation, nameValidation, passwordValidation, signup, confirmPasswordValidation } from '@/constants/quries/signup';
 import Toast from 'react-native-toast-message';
 import { router } from 'expo-router';
+
 const { width } = Dimensions.get('window');
+
 const Signup = () => {
   const [name, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
-  return (<>
-    <Uicomponent>
-      <Text style={styles.titleText}>Welcome Onboard!</Text>
-      <Text style={styles.subtitleText}>Let's help you to create an account</Text>
+  const handleSignup = () => {
+    if (!name) {
+      nameValidation(name);
+    } else if (!email) {
+      emailValidation(email);
+    } else if (!password) {
+      passwordValidation(password);
+    } else if (!confirmPassword || password !== confirmPassword) {
+      confirmPasswordValidation(password, confirmPassword);
+    } else {
+      signup(name, email, password);
+    }
+  };
 
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter your full name"
-          placeholderTextColor="#999"
-          value={name}
-          onChangeText={setFullName}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Enter your email"
-          placeholderTextColor="#999"
-          value={email}
-          onChangeText={setEmail}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Enter password"
-          placeholderTextColor="#999"
-          secureTextEntry={true}
-          value={password}
-          onChangeText={setPassword}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Confirm Password"
-          placeholderTextColor="#999"
-          secureTextEntry={true}
-          value={confirmPassword}
-          onChangeText={setConfirmPassword}
-        />
-      </View>
+  return (
+    <>
+      <Uicomponent>
+        <Text style={styles.titleText}>Welcome Onboard!</Text>
+        <Text style={styles.subtitleText}>Let's help you to create an account</Text>
 
-      <TouchableOpacity style={styles.registerButton} onPress={()=>{signup(name,email,password)}}>
-        <Text style={styles.registerButtonText}>Register</Text>
-      </TouchableOpacity>
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter your full name"
+            placeholderTextColor="#999"
+            value={name}
+            onChangeText={setFullName}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Enter your email"
+            placeholderTextColor="#999"
+            value={email}
+            onChangeText={setEmail}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Enter password"
+            placeholderTextColor="#999"
+            secureTextEntry
+            value={password}
+            onChangeText={setPassword}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Confirm Password"
+            placeholderTextColor="#999"
+            secureTextEntry
+            value={confirmPassword}
+            onChangeText={setConfirmPassword}
+          />
+        </View>
 
-      <View style={styles.footerContainer}>
-        <Text>Already have an account?</Text>
-        <TouchableOpacity onPress={()=>{router.push("/auth/signin")}}>
-          <Text style={styles.signInText}>Sign In</Text>
+        <TouchableOpacity style={styles.registerButton} onPress={handleSignup}>
+          <Text style={styles.registerButtonText}>Register</Text>
         </TouchableOpacity>
-      </View>
-    </Uicomponent>
-    <Toast/></>
+
+        <View style={styles.footerContainer}>
+          <Text>Already have an account?</Text>
+          <TouchableOpacity onPress={() => router.push("/auth/signin")}>
+            <Text style={styles.signInText}>Sign In</Text>
+          </TouchableOpacity>
+        </View>
+      </Uicomponent>
+      <Toast />
+    </>
   );
 };
 
@@ -82,10 +100,11 @@ const styles = StyleSheet.create({
   inputContainer: {
     width: '100%',
     marginBottom: 20,
-    justifyContent:"center",alignItems:"center"
+    justifyContent: "center",
+    alignItems: "center",
   },
   input: {
-    width:width-60,
+    width: width - 60,
     height: 50,
     backgroundColor: '#fff',
     borderRadius: 50,
@@ -99,7 +118,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#4a90e2',
     paddingVertical: 15,
     borderRadius: 50,
-    width:width-60,
+    width: width - 60,
     alignItems: 'center',
     marginTop: 20,
   },

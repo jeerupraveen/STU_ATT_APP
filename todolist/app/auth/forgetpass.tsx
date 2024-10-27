@@ -4,11 +4,23 @@ import Uicomponent from '@/components/Uicomponent'; // Assuming this is a custom
 import { router } from 'expo-router';
 import { forgetpwd } from '@/constants/quries/forgetpwd';
 import Toast from 'react-native-toast-message';
+import { confirmPasswordValidation, emailValidation, passwordValidation } from '@/constants/quries/signup';
 const { width } = Dimensions.get('window');
 const ForgetPassword = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const handleSignup = () => {
+    if (!email) {
+      emailValidation(email);
+    } else if (!password) {
+      passwordValidation(password);
+    } else if (!confirmPassword || password !== confirmPassword) {
+      confirmPasswordValidation(password, confirmPassword);
+    } else {
+      forgetpwd(email, password);
+    }
+  };
 
   return (<>
     <Uicomponent>
@@ -39,7 +51,7 @@ const ForgetPassword = () => {
           onChangeText={setConfirmPassword}
         />
       </View>
-      <TouchableOpacity style={styles.registerButton} onPress={()=>{forgetpwd(email,password)}}>
+      <TouchableOpacity style={styles.registerButton} onPress={()=>{handleSignup()}}>
         <Text style={styles.registerButtonText}>RESET</Text>
       </TouchableOpacity>
       <View style={styles.footerContainer}>

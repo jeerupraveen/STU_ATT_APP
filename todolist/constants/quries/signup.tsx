@@ -1,3 +1,4 @@
+import { Alert } from "react-native";
 import { Auth } from "../api/route";
 import Toast from "react-native-toast-message";
 
@@ -30,4 +31,54 @@ export const signup = async (name: string,email: string, password: string) => {
       visibilityTime:1000
     });
   }}
+};
+export const emailValidation = (email: string) => {
+  if (!email) {
+    Toast.show({
+      type: "error",
+      text1: "Validation Error",
+      text2: "Please enter an email",
+      visibilityTime: 1000,
+    });
+  }
+};
+
+export const nameValidation = (name: string) => {
+  if (!name) {
+    Toast.show({
+      type: "error",
+      text1: "Validation Error",
+      text2: "Please enter a name",
+      visibilityTime: 1000,
+    });
+  }
+};
+
+export const confirmPasswordValidation = (password: string, confirmPassword: string) => {
+  if (!confirmPassword) {
+    Toast.show({
+      type: "error",
+      text1: "Validation Error",
+      text2: "Please enter a password",
+      visibilityTime: 1000,
+    });
+  } else if (password !== confirmPassword) {
+    Toast.show({
+      type: "error",
+      text1: "Validation Error",
+      text2: "Passwords do not match",
+      visibilityTime: 1000,
+    });
+  }
+};
+
+export const passwordValidation = (password: string) => {
+  if (!password) {
+    Toast.show({
+      type: "error",
+      text1: "Validation Error",
+      text2: "Please enter a password",
+      visibilityTime: 1000,
+    });
+  }
 };

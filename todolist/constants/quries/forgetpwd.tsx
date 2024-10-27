@@ -4,7 +4,6 @@ import { Auth } from "../api/route"
 export const forgetpwd=async(email:string,password:string)=>{
     try{
         const response=await Auth.ForgetPassword(email,password);
-        console.log(response)
         if(response.status===200){
             Toast.show({
                 type:'info',
@@ -14,7 +13,6 @@ export const forgetpwd=async(email:string,password:string)=>{
             })
         }
     }catch(e:any){
-        console.log("erroe",e)
         Toast.show({type:"error",text1:"no user found with email",visibilityTime:1000})
     }
 }

@@ -8,35 +8,58 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { retrivetask } from '@/constants/api/api';
 import axios from 'axios';
 import { deletetask } from '@/constants/quries/addtask';
+import Toast from 'react-native-toast-message';
 
 const Todolist = () => {
   const [userid, setUserId] = useState<string>("");
-  const [task, setTask] = useState<any[]>([]);
+  const [task, setTask] = useState([]);
   const { width } = Dimensions.get("window");
 
   const fetchUserIdAndTasks = async () => {
     const userId = await AsyncStorage.getItem("userdata");
-    console.log("USERID IN ASYNC STORAGE", userId);
-    
+
     if (userId) {
       setUserId(userId);
-      console.log("INDEX", userId);  // Log userId here instead of the state
-      await retrivedata(userId); // Call retrivedata with userId here
+      // console.log("INDEX", userId);  
+      await retrivedata(userId);
     } else {
-      console.warn("No user ID found in AsyncStorage.");
+      Toast.show({
+        type:"info",
+        text1:"No user ID found in AsyncStorage"
+      })
     }
   };
 
   const retrivedata = async (userid: string) => {
     try {
       const res = await axios.post(retrivetask, { userid });
-      console.log(res.data)
-      setTask(res.data); // Adjust this based on your response structure
-    } catch (error) {
-      console.error("Error retrieving tasks:", error);
-      // You can also set an error state here to show a message in the UI
+      setTask(res.data); 
+    } catch (error:any) {
+      Toast.show({
+        type:"error",
+        text1:"Error retrieving tasks",
+        text2:error.message
+      })
     }
   };
+  const handleDeleteTask = async (taskId: string) => {
+    try {
+      setTask((prevTasks) => prevTasks.filter((t: any) => t._id !== taskId));
+  
+      await deletetask(taskId);
+  
+      await fetchUserIdAndTasks();
+
+    } catch (error:any) {
+      Toast.show({
+        type:"error",
+        text1:"Error deleting task",
+        text2:error.message
+      })
+    }
+  };
+  
+  
 
   useEffect(() => {
     fetchUserIdAndTasks();
@@ -53,8 +76,8 @@ const Todolist = () => {
             <Text style={styles.headerText}>TODOLIST</Text>
             <FontAwesome name="calendar" size={40} color="black" style={styles.calendarIcon} />
           </View>
-          {task.length? ( // Check if tasks exist
-            task.map((arr, index) => (
+          {task.length >0? ( // Check if tasks exist
+            task.map((arr:any, index) => (
               <View key={index} style={[styles.todoContainer, { width }]}>
                 <View style={[styles.todoItem, { width: width - 20 }]}>
                   <View style={styles.todoTextContainer}>
@@ -76,7 +99,7 @@ const Todolist = () => {
                       color="black" 
                       style={{ marginHorizontal: 10 }}
                       accessibilityRole='button'
-                      onPress={() => { deletetask(arr._id);fetchUserIdAndTasks() }} 
+                      onPress={() => {handleDeleteTask(arr._id) }} 
                     />
                     <AntDesign 
                       name="checkcircleo" 
@@ -102,6 +125,7 @@ const Todolist = () => {
         label="plus"
         style={styles.fab}
       />
+      <Toast/>
     </>
   );
 };

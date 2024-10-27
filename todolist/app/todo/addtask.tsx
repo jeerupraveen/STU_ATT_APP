@@ -3,15 +3,16 @@ import { View, Text, Dimensions, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialIcons } from '@expo/vector-icons';
 import { TextInput, Button } from 'react-native-paper';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { addTask } from '@/constants/quries/addtask';
+import AsyncStorage from '@react-native-async-storage/async-storage'; // Corrected import
+import { addTask, detailValidation, titleValidation } from '@/constants/quries/addtask';
 import { router } from 'expo-router';
+import Toast from 'react-native-toast-message';
 
 const AddTask = () => {
   const { width, height } = Dimensions.get('screen');
   const [title, setTitle] = useState('');
   const [detail, setDetail] = useState('');
-  const [userId, setUserId] = useState<any>();
+  const [userId, setUserId] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchUserId = async () => {
@@ -20,22 +21,30 @@ const AddTask = () => {
         if (userdata) {
           setUserId(userdata);
         }
-      } catch (error) {
-        console.error('Error fetching user data:', error);
+      } catch (error:any) {
+        Toast.show({
+          type:"error",text1:"Error fetching user data",text2:error.message
+        })
       }
     };
     fetchUserId();
   }, []);
-  console.log("ADDTASK UERID",userId)
+
   const handleAddTask = () => {
-    if (userId) {
-      addTask(title, detail, userId);
+    if (!title) {
+      titleValidation(title);
+    } else if (!detail) {
+      detailValidation(detail);
     } else {
-      console.error('User ID not found');
+      if (userId) {
+        addTask(title, detail, userId);
+      } else {
+        Toast.show({type:"info",text1:'User ID not found'})
+      }
     }
   };
 
-  return (
+  return (<>
     <SafeAreaView style={{ flex: 1, width, height, backgroundColor: 'white' }}>
       <View style={{ flexDirection: 'row', alignItems: 'flex-start', backgroundColor: '#B7E0FF', padding: 16 }}>
         <TouchableOpacity onPress={() => router.back()}>
@@ -68,6 +77,8 @@ const AddTask = () => {
         </Button>
       </View>
     </SafeAreaView>
+    <Toast />
+    </>
   );
 };
 

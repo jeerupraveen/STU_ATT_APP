@@ -5,6 +5,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { TextInput, Button } from 'react-native-paper';
 import { router, useLocalSearchParams } from 'expo-router';
 import { update } from '@/constants/quries/addtask';
+import Toast from 'react-native-toast-message';
 
 const EditTask = () => {
   const { width, height } = Dimensions.get('screen');
@@ -12,7 +13,7 @@ const EditTask = () => {
   const [title1, setTitle] = useState(title);
   const [detail2, setDetail] = useState(detail);
 
-  return (
+  return (<>
     <SafeAreaView style={{ flex: 1, width, height, backgroundColor: 'white' }}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => router.back()}>
@@ -52,6 +53,8 @@ const EditTask = () => {
         </Button>
       </View>
     </SafeAreaView>
+    <Toast />
+    </>
   );
 };
 

@@ -13,13 +13,13 @@ app.use(cors());
 app.use(express.json());
 // Basic route for testing
 app.get('/', (req, res) => {
-  res.json({ message: 'Welcome to the Attendance App!' });
+  res.json({ message: 'Welcome to the ToDoList App!' });
 });
 
 // Signup route
 app.post('/signup', async (req, res) => {
   const { name, email, password } = req.body;
-  console.log(req.body);
+  // console.log(req.body);
   try {
     await db.collection('authentication').insertOne({ Name: name, Email: email, Password: password });
     res.status(201).json({ message: 'User signed up successfully' });
@@ -52,7 +52,7 @@ app.post('/signin', async (req, res) => {
 // Forget password route
 app.post('/forgetpassword', async (req, res) => {
   const { email, password } = req.body;
-  console.log(req.body)
+  // console.log(req.body)
   try {
     const response = await db.collection('authentication').findOneAndUpdate(
       { Email:email },
@@ -73,8 +73,8 @@ app.post('/forgetpassword', async (req, res) => {
 app.post('/addtask', async (req, res) => {
   const { title, detail,UserId} = req.body;
  const id=new ObjectId(UserId)
- console.log(id)
-  console.log(req.body)
+//  console.log(id)
+//   console.log(req.body)
   try {
     await db.collection('task').insertOne({
       Title: title,
@@ -91,7 +91,7 @@ app.post('/addtask', async (req, res) => {
 // Update task route
 app.post('/updatetask', async (req, res) => {
   const { title, detail,id} = req.body;
-  console.log(req.body)
+  // console.log(req.body)
   try {
     const response = await db.collection('task').findOneAndUpdate(
       { _id: new ObjectId(id) },
@@ -110,7 +110,7 @@ app.post('/updatetask', async (req, res) => {
 
 // Delete task route
 app.post('/deletetask', async (req, res) => {
-  console.log(req.body)
+  // console.log(req.body)
   const { id } = req.body;
   try {
     const response = await db.collection('task').deleteOne({ _id:ObjectId.createFromHexString(id)});
@@ -124,11 +124,11 @@ app.post('/deletetask', async (req, res) => {
   }
 });
 app.post("/retrivetask", async (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   try {
     const { userid } = req.body; // Get the userid from request body
     const response = await db.collection("task").find({ UserId: new ObjectId(userid) }).toArray(); // Ensure you are querying correctly
-    console.log(response);
+    // console.log(response);
     
     if (response.length > 0) {
       res.status(200).json(response); // Return tasks if found
